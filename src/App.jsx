@@ -6,6 +6,7 @@ function App() {
       <h1 className="text-5xl font-bold text-cyan-400">
         DevTinder 🚀
       </h1>
+      <button class="btn btn-primary">Button</button>
     </div>
     </>
   )
