@@ -11,34 +11,34 @@ import {
   Code2,
 } from "lucide-react";
 
+const navLinks = [
+  { name: "Discover", icon: <Code2 size={18} /> },
+  { name: "Requests", icon: <Heart size={18} /> },
+  { name: "Connections", icon: <Users size={18} /> },
+];
+
 const Navbar = () => {
   const [mobileMenu, setMobileMenu] = React.useState(false);
 
   // Temporary
   const isAuthenticated = true;
 
-  const navLinks = [
-    { name: "Discover", icon: <Code2 size={18} /> },
-    { name: "Requests", icon: <Heart size={18} /> },
-    { name: "Connections", icon: <Users size={18} /> },
-  ];
-
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-base-100/80 border-b border-base-300">
-      <div className="navbar max-w-7xl mx-auto px-5">
+    <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-md border-b border-borderc">
+      <div className="navbar max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Logo */}
         <div className="flex-1">
-          <a className="flex items-center gap-3 cursor-pointer">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center shadow-lg">
-              <Code2 className="text-white" size={22} />
+          <a className="flex items-center gap-2.5 cursor-pointer">
+            <div className="w-9 h-9 rounded-lg bg-dark border border-borderc flex items-center justify-center">
+              <Code2 className="text-accent" size={18} />
             </div>
 
-            <div>
-              <h1 className="font-bold text-xl tracking-wide">
-                DevTinder
+            <div className="leading-tight">
+              <h1 className="font-bold text-lg text-text tracking-tight">
+                dev<span className="text-accent">/</span>tinder
               </h1>
-              <p className="text-xs opacity-60">
+              <p className="hidden sm:block text-xs text-muted">
                 Connect. Collaborate. Code.
               </p>
             </div>
@@ -47,89 +47,84 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex">
-          <ul className="menu menu-horizontal gap-2 font-medium">
-
+          <ul className="menu menu-horizontal gap-1 font-medium">
             {navLinks.map((item) => (
               <li key={item.name}>
-                <a className="rounded-xl hover:bg-primary hover:text-white transition-all duration-300">
+                <a className="rounded-lg text-muted hover:text-text hover:bg-dark transition-colors duration-200 gap-2">
                   {item.icon}
                   {item.name}
                 </a>
               </li>
             ))}
-
           </ul>
         </div>
 
         {/* Right Side */}
-        <div className="flex-none gap-3">
+        <div className="flex-none flex items-center gap-1 sm:gap-2">
 
           {isAuthenticated ? (
             <>
               {/* Notification */}
-              <button className="btn btn-ghost btn-circle relative hover:scale-105 transition">
-                <Bell size={21} />
-                <span className="badge badge-primary badge-xs absolute top-2 right-2"></span>
+              <button className="btn btn-ghost btn-circle relative text-muted hover:text-text hover:bg-dark">
+                <Bell size={20} />
+                <span className="w-2 h-2 rounded-full bg-accent absolute top-2 right-2"></span>
               </button>
 
               {/* Avatar */}
               <div className="dropdown dropdown-end">
-
-                <label tabIndex={0} className="cursor-pointer">
-
+                <button
+                  type="button"
+                  tabIndex={0}
+                  className="cursor-pointer flex items-center"
+                >
                   <div className="avatar online">
-                    <div className="w-11 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <div className="w-9 rounded-full ring ring-accent ring-offset-surface ring-offset-2">
                       <img
                         src="https://i.pravatar.cc/150?img=15"
-                        alt="avatar"
+                        alt="User avatar"
                       />
                     </div>
                   </div>
-
-                </label>
+                </button>
 
                 <ul
                   tabIndex={0}
-                  className="menu dropdown-content mt-4 p-2 shadow-2xl bg-base-100 rounded-2xl w-60 border border-base-300"
+                  className="menu dropdown-content mt-4 p-2 shadow-xl bg-surface rounded-xl w-56 border border-borderc"
                 >
-                  <div className="px-4 py-3 border-b border-base-300">
-                    <h2 className="font-bold">Prabhulal</h2>
-                    <p className="text-sm opacity-60">
-                      Frontend Developer
-                    </p>
+                  <div className="px-3 py-2.5 border-b border-borderc mb-1">
+                    <h2 className="font-semibold text-text text-sm">Prabhulal</h2>
+                    <p className="text-xs text-muted">Frontend Developer</p>
                   </div>
 
-                  <li className="mt-2">
-                    <a>
-                      <User size={18} />
+                  <li>
+                    <a className="rounded-lg text-muted hover:text-text hover:bg-dark gap-2">
+                      <User size={16} />
                       Profile
                     </a>
                   </li>
 
                   <li>
-                    <a>
-                      <Settings size={18} />
+                    <a className="rounded-lg text-muted hover:text-text hover:bg-dark gap-2">
+                      <Settings size={16} />
                       Settings
                     </a>
                   </li>
 
-                  <li className="text-error">
-                    <a>
-                      <LogOut size={18} />
+                  <li>
+                    <a className="rounded-lg text-danger hover:bg-danger/10 gap-2">
+                      <LogOut size={16} />
                       Logout
                     </a>
                   </li>
                 </ul>
-
               </div>
             </>
           ) : (
             <>
-              <button className="btn btn-ghost">
+              <button className="btn btn-ghost text-muted hover:text-text hover:bg-dark">
                 Login
               </button>
-
-              <button className="btn btn-primary rounded-xl">
+              <button className="btn bg-accent hover:bg-accent/90 border-none text-white rounded-lg">
                 Sign Up
               </button>
             </>
@@ -137,35 +132,32 @@ const Navbar = () => {
 
           {/* Mobile Button */}
           <button
-            className="btn btn-ghost lg:hidden btn-circle"
+            className="btn btn-ghost btn-circle lg:hidden text-muted hover:text-text hover:bg-dark"
             onClick={() => setMobileMenu(!mobileMenu)}
+            aria-label="Toggle menu"
           >
-            {mobileMenu ? <X /> : <Menu />}
+            {mobileMenu ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-500 ${
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${
           mobileMenu ? "max-h-96" : "max-h-0"
         }`}
       >
-        <div className="px-5 pb-5 border-t border-base-300 bg-base-100">
-
-          <ul className="menu w-full gap-2">
-
+        <div className="px-4 pb-4 border-t border-borderc bg-surface">
+          <ul className="menu w-full gap-1 pt-2">
             {navLinks.map((item) => (
               <li key={item.name}>
-                <a className="rounded-xl">
+                <a className="rounded-lg text-muted hover:text-text hover:bg-dark gap-2">
                   {item.icon}
                   {item.name}
                 </a>
               </li>
             ))}
-
           </ul>
-
         </div>
       </div>
     </header>

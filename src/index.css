@@ -1,2 +1,19 @@
 @import "tailwindcss";
-@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+@theme {
+  --color-dark: #0A0A0C;
+  --color-surface: #17181C;
+  --color-borderc: #2A2B30;
+  --color-accent: #5B6EF5;
+  --color-success: #3DD68C;
+  --color-danger: #F45B69;
+  --color-text: #EDEDEF;
+  --color-muted: #8B8D98;
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
