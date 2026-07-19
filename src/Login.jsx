@@ -1,6 +1,5 @@
+import axios from 'axios'
 import React, { useState } from 'react'
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const EyeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="h-5 w-5">
@@ -16,14 +15,14 @@ const EyeOffIcon = () => (
 )
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [formData, setFormData] = useState({ emailId: '', password: '' })
   const [errors, setErrors] = useState({})
   const [showPassword, setShowPassword] = useState(false)
+  const [serverError, setServerError] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    // Clear the error for this field as the user corrects it
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }))
     }
@@ -32,28 +31,34 @@ const Login = () => {
   const validate = () => {
     const nextErrors = {}
 
-    if (!formData.email.trim()) {
-      nextErrors.email = 'Email is required'
-    } else if (!EMAIL_REGEX.test(formData.email.trim())) {
-      nextErrors.email = 'Enter a valid email address'
+    if (!formData.emailId.trim()) {
+      nextErrors.emailId = 'Email is required'
     }
 
-    if (!formData.password) {
+    if (!formData.password.trim()) {
       nextErrors.password = 'Password is required'
-    } else if (formData.password.length < 6) {
-      nextErrors.password = 'Password must be at least 6 characters'
     }
 
     setErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setServerError('')
     if (!validate()) return
 
-    // API wiring comes in a later step
-    console.log('Login form valid:', formData)
+    try {
+      const res = await axios.post(
+        'http://localhost:3000/login',
+        formData,
+        { withCredentials: true }
+      )
+      console.log('Login successful:', res.data)
+    } catch (error) {
+      console.error('Login error:', error)
+      setServerError(error?.response?.data || 'Login failed. Please try again.')
+    }
   }
 
   return (
@@ -71,29 +76,35 @@ const Login = () => {
           <h1 className="mb-1 text-xl font-semibold text-[#EDEDEF]">Log in</h1>
           <p className="mb-6 text-sm text-[#8B8D98]">Welcome back. Enter your details to continue.</p>
 
+          {serverError && (
+            <div className="mb-4 rounded-lg border border-[#F45B69] bg-[#F45B69]/10 px-3.5 py-2.5 text-sm text-[#F45B69]">
+              {serverError}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} noValidate className="space-y-4">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-[#EDEDEF]">
+              <label htmlFor="emailId" className="mb-1.5 block text-sm font-medium text-[#EDEDEF]">
                 Email
               </label>
               <input
-                id="email"
-                name="email"
+                id="emailId"
+                name="emailId"
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
-                value={formData.email}
+                value={formData.emailId}
                 onChange={handleChange}
-                aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? 'email-error' : undefined}
+                aria-invalid={Boolean(errors.emailId)}
+                aria-describedby={errors.emailId ? 'emailId-error' : undefined}
                 className={`w-full rounded-lg border bg-[#0A0A0C] px-3.5 py-2.5 text-sm text-[#EDEDEF] placeholder:text-[#8B8D98] outline-none transition-colors focus:border-[#5B6EF5] focus:ring-1 focus:ring-[#5B6EF5] ${
-                  errors.email ? 'border-[#F45B69]' : 'border-[#2A2B30]'
+                  errors.emailId ? 'border-[#F45B69]' : 'border-[#2A2B30]'
                 }`}
               />
-              {errors.email && (
-                <p id="email-error" className="mt-1.5 text-xs text-[#F45B69]">
-                  {errors.email}
+              {errors.emailId && (
+                <p id="emailId-error" className="mt-1.5 text-xs text-[#F45B69]">
+                  {errors.emailId}
                 </p>
               )}
             </div>
