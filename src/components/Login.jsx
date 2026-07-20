@@ -1,5 +1,9 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addUser } from '../utils/userSlice'
+import { useNavigate } from 'react-router-dom'
+import { BASE_URL } from '../utils/constants'
 
 const EyeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="h-5 w-5">
@@ -19,6 +23,10 @@ const Login = () => {
   const [errors, setErrors] = useState({})
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState('')
+  // Initialize the Redux dispatch function to dispatch actions to the store
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -50,11 +58,13 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        'http://localhost:3000/login',
+        `${BASE_URL}/login`,
         formData,
         { withCredentials: true }
       )
-      console.log('Login successful:', res.data)
+      dispatch(addUser(res.data))// Dispatch the addUser action to update the Redux store with the logged-in user's data
+      navigate("/")
+      console.log('Login successful:', res.data.data)
     } catch (error) {
       console.error('Login error:', error)
       setServerError(error?.response?.data || 'Login failed. Please try again.')

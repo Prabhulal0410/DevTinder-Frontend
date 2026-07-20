@@ -10,6 +10,7 @@ import {
   Heart,
   Code2,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const navLinks = [
   { name: "Discover", icon: <Code2 size={18} /> },
@@ -20,8 +21,7 @@ const navLinks = [
 const Navbar = () => {
   const [mobileMenu, setMobileMenu] = React.useState(false);
 
-  // Temporary
-  const isAuthenticated = true;
+  const user = useSelector((store)=>store.user)
 
   return (
     <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-md border-b border-borderc">
@@ -62,7 +62,7 @@ const Navbar = () => {
         {/* Right Side */}
         <div className="flex-none flex items-center gap-1 sm:gap-2">
 
-          {isAuthenticated ? (
+          {user && (
             <>
               {/* Notification */}
               <button className="btn btn-ghost btn-circle relative text-muted hover:text-text hover:bg-dark">
@@ -80,7 +80,7 @@ const Navbar = () => {
                   <div className="avatar online">
                     <div className="w-9 rounded-full ring ring-accent ring-offset-surface ring-offset-2">
                       <img
-                        src="https://i.pravatar.cc/150?img=15"
+                        src={user.data.photoUrl}
                         alt="User avatar"
                       />
                     </div>
@@ -118,15 +118,6 @@ const Navbar = () => {
                   </li>
                 </ul>
               </div>
-            </>
-          ) : (
-            <>
-              <button className="btn btn-ghost text-muted hover:text-text hover:bg-dark">
-                Login
-              </button>
-              <button className="btn bg-accent hover:bg-accent/90 border-none text-white rounded-lg">
-                Sign Up
-              </button>
             </>
           )}
 
