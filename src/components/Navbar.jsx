@@ -5,24 +5,28 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
+import toast from "react-hot-toast";
 
 const DEFAULT_AVATAR = "https://geographyandyou.com/images/user-profile.png";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
+  console.log(user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
-    } catch (err) {
-      console.error("Logout failed:", err);
-    } finally {
-      dispatch(removeUser());
-      navigate("/login");
-    }
-  };
+  try {
+    await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
+
+    dispatch(removeUser());
+    toast.success("Logged out successfully 👋");
+    navigate("/login");
+  } catch (err) {
+    console.error("Logout failed:", err);
+    toast.error("Logout failed. Please try again.");
+  }
+};
 
   return (
     <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-md border-b border-borderc">
@@ -57,7 +61,7 @@ const Navbar = () => {
                 <div className="avatar online">
                   <div className="w-9 rounded-full ring ring-accent ring-offset-surface ring-offset-2">
                     <img
-                      src={user.photoUrl || DEFAULT_AVATAR}
+                      src={user?.photoUrl || DEFAULT_AVATAR}
                       alt={`${user.firstName}'s avatar`}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
