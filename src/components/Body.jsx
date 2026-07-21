@@ -10,7 +10,6 @@ import { addUser } from "../utils/userSlice";
 const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((store) => store.user);
 
   const fetchUser = async () => {
     try {
@@ -19,15 +18,14 @@ const Body = () => {
       });
       dispatch(addUser(res.data));
     } catch (err) {
-  if (err.response && err.response.status === 401) {
-    navigate("/login");
-  }
-}
+      if (err.response && err.response.status === 401) {
+        navigate("/login");
+      }
+    }
   };
+
   useEffect(() => {
-    console.log("Body mounted");
-    if(!userData || !userData.data) {
-    fetchUser()}
+    fetchUser();
   }, []);
 
   return (
