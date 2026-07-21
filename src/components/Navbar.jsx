@@ -80,7 +80,7 @@ const Navbar = () => {
                   <div className="avatar online">
                     <div className="w-9 rounded-full ring ring-accent ring-offset-surface ring-offset-2">
                       <img
-                        src={user.data.photoUrl}
+                        src={user?.data?.photoUrl}
                         alt="User avatar"
                       />
                     </div>

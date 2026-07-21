@@ -11,12 +11,15 @@ function App() {
   return (
     <>
       <Provider store={appStore}>
-        <BrowserRouter basename="/">
+        <BrowserRouter>
           <Routes>
+            {/* Public Route */}
+            <Route path="/login" element={<Login />} />
+
+            {/* Protected Layout */}
             <Route path="/" element={<Body />}>
-            <Route path="/" element={<Feed />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route index element={<Feed />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
           </Routes>
         </BrowserRouter>
