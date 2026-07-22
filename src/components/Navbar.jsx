@@ -7,11 +7,9 @@ import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import toast from "react-hot-toast";
 
-const DEFAULT_AVATAR = "https://geographyandyou.com/images/user-profile.png";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
-  console.log(user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,7 +59,7 @@ const Navbar = () => {
                 <div className="avatar online">
                   <div className="w-9 rounded-full ring ring-accent ring-offset-surface ring-offset-2">
                     <img
-                      src={user?.photoUrl || DEFAULT_AVATAR}
+                      src={user?.photoUrl}
                       alt={`${user.firstName}'s avatar`}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
