@@ -37,25 +37,25 @@ const UserCard = ({ user, onSwipe, isTop }) => {
 
   return (
     <motion.div
-      className="absolute inset-0 m-auto w-[340px] h-[560px] rounded-3xl border border-[#2A2B30] bg-[#17181C] overflow-hidden cursor-grab active:cursor-grabbing select-none"
+      className="absolute inset-0 rounded-2xl sm:rounded-3xl border border-[#2A2B30] bg-[#17181C] overflow-hidden cursor-grab active:cursor-grabbing select-none flex flex-col"
       style={{
         x,
         rotate,
         scale: isTop ? scale : 0.95,
         boxShadow: isTop
-          ? '0 25px 60px -15px rgba(91, 110, 245, 0.3), 0 0 0 1px rgba(91, 110, 245, 0.08)'
-          : '0 15px 40px -20px rgba(0, 0, 0, 0.6)',
+          ? '0 20px 45px -15px rgba(91, 110, 245, 0.3), 0 0 0 1px rgba(91, 110, 245, 0.08)'
+          : '0 12px 30px -18px rgba(0, 0, 0, 0.6)',
       }}
       drag={isTop ? 'x' : false}
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.85}
       onDragEnd={handleDragEnd}
-      initial={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 16, opacity: 0 }}
-      animate={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 16, opacity: 1 }}
+      initial={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 12, opacity: 0 }}
+      animate={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 12, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 400, damping: 32 }}
     >
       {/* Photo */}
-      <div className="relative w-full h-[380px] bg-[#0A0A0C]">
+      <div className="relative flex-1 min-h-0 bg-[#0A0A0C]">
         {!imgFailed && photoUrl ? (
           <img
             src={photoUrl}
@@ -66,65 +66,65 @@ const UserCard = ({ user, onSwipe, isTop }) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <div className="w-24 h-24 rounded-full bg-[#5B6EF5]/10 border border-[#5B6EF5]/30 flex items-center justify-center">
-              <span className="font-sans font-semibold text-2xl text-[#5B6EF5]">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#5B6EF5]/10 border border-[#5B6EF5]/30 flex items-center justify-center">
+              <span className="font-sans font-semibold text-lg sm:text-xl text-[#5B6EF5]">
                 {getInitials(firstName, lastName)}
               </span>
             </div>
           </div>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#17181C] to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 bg-gradient-to-t from-[#17181C] to-transparent pointer-events-none" />
 
         <motion.div
           style={{ opacity: likeOpacity }}
-          className="absolute top-5 left-5 rotate-[-12deg] border-[3px] border-[#3DD68C] rounded-lg px-3 py-1 pointer-events-none"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 rotate-[-12deg] border-2 sm:border-[3px] border-[#3DD68C] rounded-lg px-2 py-0.5 sm:px-2.5 sm:py-1 pointer-events-none"
         >
-          <span className="font-sans font-bold text-lg tracking-wider text-[#3DD68C]">
+          <span className="font-sans font-bold text-sm sm:text-base tracking-wider text-[#3DD68C]">
             LIKE
           </span>
         </motion.div>
 
         <motion.div
           style={{ opacity: nopeOpacity }}
-          className="absolute top-5 right-5 rotate-[12deg] border-[3px] border-[#F45B69] rounded-lg px-3 py-1 pointer-events-none"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 rotate-[12deg] border-2 sm:border-[3px] border-[#F45B69] rounded-lg px-2 py-0.5 sm:px-2.5 sm:py-1 pointer-events-none"
         >
-          <span className="font-sans font-bold text-lg tracking-wider text-[#F45B69]">
+          <span className="font-sans font-bold text-sm sm:text-base tracking-wider text-[#F45B69]">
             NOPE
           </span>
         </motion.div>
       </div>
 
       {/* Info */}
-      <div className="p-5 flex flex-col gap-3 h-[180px] overflow-hidden">
-        <div className="flex items-baseline gap-2 flex-wrap">
-          <h2 className="font-sans font-semibold text-xl text-[#EDEDEF] leading-none">
+      <div className="p-3 sm:p-4 flex flex-col gap-2 shrink-0">
+        <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
+          <h2 className="font-sans font-semibold text-base sm:text-lg text-[#EDEDEF] leading-none">
             {firstName} {lastName}
           </h2>
           {age && (
-            <span className="font-sans text-base text-[#8B8D98] leading-none">
+            <span className="font-sans text-xs sm:text-sm text-[#8B8D98] leading-none">
               {age}
             </span>
           )}
           {gender && (
-            <span className="font-mono text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-[#0A0A0C] border border-[#2A2B30] text-[#8B8D98] leading-none">
+            <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wide px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-[#0A0A0C] border border-[#2A2B30] text-[#8B8D98] leading-none">
               {gender}
             </span>
           )}
         </div>
 
         {showAbout && (
-          <p className="font-sans text-sm text-[#8B8D98] leading-relaxed line-clamp-2">
+          <p className="font-sans text-[11px] sm:text-xs text-[#8B8D98] leading-relaxed line-clamp-2">
             {about}
           </p>
         )}
 
         {skills?.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-auto">
+          <div className="flex flex-wrap gap-1 sm:gap-1.5">
             {skills.map((skill) => (
               <span
                 key={skill}
-                className="font-mono text-xs px-2.5 py-1 rounded-md bg-[#5B6EF5]/10 border border-[#5B6EF5]/20 text-[#5B6EF5]"
+                className="font-mono text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-[#5B6EF5]/10 border border-[#5B6EF5]/20 text-[#5B6EF5]"
               >
                 {skill}
               </span>
